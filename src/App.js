@@ -1,14 +1,15 @@
 import React from 'react';
 import Header from './Header';
 import MemeGenerator from './MemeGenerator';
-import './style.css';
+import Canvas from './Canvas';
+// import './style.css';
 
 function App() {
   return (
     <div>
       <Header />
-      <h1>Hello World</h1>
       <MemeGenerator />
+      <Canvas />
     </div>
     )
 }

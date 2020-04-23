@@ -1,3 +1,4 @@
+
 import React, {Component} from 'react';
 
 class MemeGenerator extends Component {
@@ -10,13 +11,7 @@ class MemeGenerator extends Component {
       allMemeImgs: []
     }
     this.handleChange = this.handleChange.bind(this)
-  }
-
-  handleChange(event) {
-    const {name, value} = event.target
-    this.setState({
-      [name]: value
-    })
+   
   }
 
   componentDidMount() {
@@ -24,15 +19,27 @@ class MemeGenerator extends Component {
       .then(response => response.json())
       .then(response => {
         const {memes} = response.data
-        console.log(memes[3])
+        // console.log(memes[3]);
         this.setState({ allMemeImgs: memes })
       })
+  }
+
+  handleChange(event) {
+    const {name, value} = event.target
+    this.setState({[name]: value})
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault()
+    const randNum = Math.floor(Math.random() * this.state.allMemeImgs.length)
+    const randMemeImg = this.state.allMemeImgs[randNum].url
+    this.setState({ randomImgUrl: randMemeImg})
   }
 
   render() {
     return (
       <div>
-        <form className="meme-form">
+        <form className="meme-form" onSubmit={this.handleSubmit}>
           <input 
             type="text"
             name="topText"
@@ -47,9 +54,19 @@ class MemeGenerator extends Component {
             value={this.state.bottomText}
             onChange={this.handleChange}
           />
-          <h1>{this.state.topText} {this.state.bottomText}</h1>
-          <button>Gen</button>
+        
+          <button>Generate</button>
         </form>
+
+        <div className="meme">
+          <img src={this.state.randomImgUrl} alt="" />
+          <h2 className="top">{this.state.topText}</h2>
+          <h2 className="bottom">{this.state.bottomText}</h2>
+        </div>
+
+        <div className="meme-form">
+          <button>Download</button>
+        </div>
       </div>
       )
   }
